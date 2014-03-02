@@ -1,4 +1,4 @@
-from __future__ import division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 from aspen.http.response import Response
 from gittip import utils
@@ -26,6 +26,7 @@ class Tests(Harness):
         with self.assertRaises(Response) as cm:
             utils.get_participant(request, restrict=False)
         actual = cm.exception.code
+
         assert actual == 302
 
     def test_dict_to_querystring_converts_dict_to_querystring(self):
@@ -53,3 +54,7 @@ class Tests(Harness):
         actual = utils.linkify('Http://Www.Example.Com')
         assert actual == expected
 
+    def test_linkify_works_without_protocol(self):
+        expected = '<a href="http://www.example.com" target="_blank">www.example.com</a>'
+        actual = utils.linkify('www.example.com')
+        assert actual == expected
